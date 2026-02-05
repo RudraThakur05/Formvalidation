@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Interactive Form Validation</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+  }
+
+  form {
+    width: 320px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 6px;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+  }
+
+  input.valid {
+    border-color: green;
+  }
+
+  input.invalid {
+    border-color: red;
+  }
+
+  small {
+    color: red;
+    font-size: 12px;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  button:hover {
+    background: #0056b3;
+  }
+</style>
+</head>
+
+<body>
+
+<form id="myForm" novalidate>
+  <h2>Register</h2>
+
+  <div class="form-group">
+    <label>Username</label>
+    <input type="text" id="username">
+    <small></small>
+  </div>
+
+  <div class="form-group">
+    <label>Email</label>
+    <input type="email" id="email">
+    <small></small>
+  </div>
+
+  <div class="form-group">
+    <label>Password</label>
+    <input type="password" id="password">
+    <small></small>
+  </div>
+
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+  const form = document.getElementById("myForm");
+  const username = document.getElementById("username");
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+
+  function showError(input, message) {
+    input.className = "invalid";
+    input.nextElementSibling.textContent = message;
+  }
+
+  function showSuccess(input) {
+    input.className = "valid";
+    input.nextElementSibling.textContent = "";
+  }
+
+  function validateUsername() {
+    if (username.value.trim() === "") {
+      showError(username, "Username is required");
+      return false;
+    }
+    showSuccess(username);
+    return true;
+  }
+
+  function validateEmail() {
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!pattern.test(email.value.trim())) {
+      showError(email, "Enter a valid email");
+      return false;
+    }
+    showSuccess(email);
+    return true;
+  }
+
+  function validatePassword() {
+    if (password.value.length < 6) {
+      showError(password, "Password must be at least 6 characters");
+      return false;
+    }
+    showSuccess(password);
+    return true;
+  }
+
+  username.addEventListener("input", validateUsername);
+  email.addEventListener("input", validateEmail);
+  password.addEventListener("input", validatePassword);
+
+  form.addEventListener("submit", function(e) {
+    if (
+      !validateUsername() |
+      !validateEmail() |
+      !validatePassword()
+    ) {
+      e.preventDefault();
+    } else {
+      alert("Form submitted successfully!");
+    }
+  });
+</script>
+
+</body>
+</html>
