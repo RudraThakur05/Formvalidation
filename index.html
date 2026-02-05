@@ -95,22 +95,27 @@
 </form>
 
 <script>
+  console.log("Form validation script loaded");
+
   const form = document.getElementById("myForm");
   const username = document.getElementById("username");
   const email = document.getElementById("email");
   const password = document.getElementById("password");
 
   function showError(input, message) {
+    console.log(`Error in ${input.id}: ${message}`);
     input.className = "invalid";
     input.nextElementSibling.textContent = message;
   }
 
   function showSuccess(input) {
+    console.log(`${input.id} is valid`);
     input.className = "valid";
     input.nextElementSibling.textContent = "";
   }
 
   function validateUsername() {
+    console.log("Validating username:", username.value);
     if (username.value.trim() === "") {
       showError(username, "Username is required");
       return false;
@@ -120,6 +125,7 @@
   }
 
   function validateEmail() {
+    console.log("Validating email:", email.value);
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!pattern.test(email.value.trim())) {
       showError(email, "Enter a valid email");
@@ -130,6 +136,7 @@
   }
 
   function validatePassword() {
+    console.log("Validating password length:", password.value.length);
     if (password.value.length < 6) {
       showError(password, "Password must be at least 6 characters");
       return false;
@@ -143,13 +150,17 @@
   password.addEventListener("input", validatePassword);
 
   form.addEventListener("submit", function(e) {
+    console.log("Form submit attempted");
+
     if (
       !validateUsername() |
       !validateEmail() |
       !validatePassword()
     ) {
+      console.log("Form submission blocked due to validation errors");
       e.preventDefault();
     } else {
+      console.log("Form submitted successfully");
       alert("Form submitted successfully!");
     }
   });
